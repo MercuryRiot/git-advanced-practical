@@ -1,0 +1,43 @@
+node {
+    try {
+        timestamps {
+            stage('Clone Repository') {
+                echo '========== Cloning Git Repository =========='
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/MercuryRiot/git-advanced-practical.git']]
+                ])
+                echo 'Repository cloned successfully'
+            }
+            
+            stage('Build') {
+                echo '========== Building Project =========='
+                echo 'Executing build commands...'
+                echo 'Build Status: SUCCESS'
+            }
+            
+            stage('Echo Build Status') {
+                echo '========== Build Status Report =========='
+                echo 'Pipeline build completed successfully!'
+                echo 'Build ID: ' + env.BUILD_ID
+                echo 'Build URL: ' + env.BUILD_URL
+            }
+            
+            stage('Archive Artifacts') {
+                echo '========== Archiving Artifacts =========='
+                try {
+                    archiveArtifacts artifacts: '**/*.txt', allowEmptyArchive: true
+                    echo 'Artifacts archived successfully'
+                } catch (e) {
+                    echo 'No artifacts found to archive'
+                }
+            }
+        }
+    } catch (e) {
+        echo 'Build Failed: ' + e.toString()
+        throw e
+    } finally {
+        echo 'Pipeline execution finished'
+    }
+}
