@@ -1,0 +1,2 @@
+This is file 3
+Content for the third file
