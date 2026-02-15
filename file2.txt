@@ -1,2 +1,3 @@
 This is file 2
 Content for the second file
+Modified: Updated content for file 2
