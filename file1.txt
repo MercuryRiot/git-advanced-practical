@@ -1,0 +1,2 @@
+This is file 1
+Content for the first file
